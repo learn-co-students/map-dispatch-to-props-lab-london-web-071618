@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import { addRestaurant } from '../actions/restaurants';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { addRestaurant } from '../actions/restaurants'
+import { connect } from 'react-redux'
 
 export class RestaurantInput extends Component {
-
   state = {
     name: '',
     location: ''
@@ -12,43 +11,49 @@ export class RestaurantInput extends Component {
   handleOnNameChange = event => {
     this.setState({
       name: event.target.value
-    });
+    })
   }
 
   handleOnLocationChange = event => {
     this.setState({
-      [event.target.id]: event.target.value
-    });
+      location: event.target.value
+    })
   }
 
   handleOnSubmit = event => {
-    event.preventDefault();
+    event.preventDefault()
     // add missing code
+    const restaurant = { ...this.state }
+    this.props.addRestaurant(this.state)
+    // this.setState({ name: '', location: '' })
   }
 
-  render() {
-    return(
+  render () {
+    return (
       <form onSubmit={(event) => this.handleOnSubmit(event)}>
         <p>
           <input
-            type="text"
+            type='text'
             onChange={(event) => this.handleOnNameChange(event)}
-            id="name"
-            placeholder="restaurant name" />
+            id='name'
+            value={this.state.name}
+            name='name'
+            placeholder='restaurant name' />
         </p>
         <p>
           <input
-            type="text"
+            type='text'
             onChange={(event) => this.handleOnLocationChange(event)}
-            id="location"
-            placeholder="location" />
+            id='location'
+            name='location'
+            value={this.state.location}
+            placeholder='location' />
         </p>
-        <input type="submit" />
+        <input type='submit' />
       </form>
-    );
+    )
   }
 };
 
-
-//connect this component by wrapping RestaurantInput below
-export default RestaurantInput
+// connect this component by wrapping RestaurantInput below
+export default connect(null, { addRestaurant })(RestaurantInput)
